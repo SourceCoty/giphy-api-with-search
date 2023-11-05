@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="content">
-        <div class="search">
-            <input id="search-box" type="text" placeholder="Search..">
+        <form class="search">
+            <input id="search-bar" type="text" placeholder="Search..">
             <button type="submit" id="submit">Submit</button>
-        </div>
+        </form>
         <div class="image">
             <img id="giph" src="#" alt="">
         </div>
@@ -20,16 +20,25 @@
 <script>
     const img = document.getElementById('giph');
     const submitBtn = document.getElementById('submit');
+    const searchBar = document.querySelector('.search');
 
-    submitBtn.addEventListener('click', () => {
-        const keyword = document.getElementById('search-box').value;
+    searchBar.addEventListener('submit', (e) => {
+        e.preventDefault();    
+        console.log("1: keyword submitted")
+        const keyword = document.getElementById('search-bar').value;
         fetch("https://api.giphy.com/v1/gifs/translate?api_key=ZkVCxXdu3oUYR3d46BPvozaFPFRCwvze&s=" + keyword, {mode: 'cors'})
             .then(function(response) {
+                console.log("2: generating response")
                 return response.json();
             })
             .then(function(response) {
-                img.src = response.data.images.original.url;
+                img.src = response.data.images.original.url
+                console.log("3: response available")
             })
+            .catch(function(e) {
+                console.log(e)
+            })
+        console.log("4: lowest line console statement in eventListener to demonstrate the asynchronous nature of fetch")
         });
 </script>
 </html>
