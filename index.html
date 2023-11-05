@@ -24,21 +24,25 @@
 
     searchBar.addEventListener('submit', (e) => {
         e.preventDefault();    
+        
         console.log("1: keyword submitted")
+        
         const keyword = document.getElementById('search-bar').value;
-        fetch("https://api.giphy.com/v1/gifs/translate?api_key=ZkVCxXdu3oUYR3d46BPvozaFPFRCwvze&s=" + keyword, {mode: 'cors'})
-            .then(function(response) {
-                console.log("2: generating response")
-                return response.json();
-            })
-            .then(function(response) {
-                img.src = response.data.images.original.url
-                console.log("3: response available")
-            })
-            .catch(function(e) {
-                console.log(e)
-            })
-        console.log("4: lowest line console statement in eventListener to demonstrate the asynchronous nature of fetch")
-        });
+        
+        getGiph(keyword) 
+
+        console.log("3: This line is run before getGiph() async function completes and returns it's own console statement despite being run after it")
+    });
+
+    async function getGiph(keyword) {
+        try {
+            const response = await fetch("https://api.giphy.com/v1/gifs/translate?api_key=ZkVCxXdu3oUYR3d46BPvozaFPFRCwvze&s=" + keyword, {mode: 'cors'})
+            const giphData = await response.json()
+            img.src = giphData.data.images.original.url
+            console.log("2: response available")
+        } catch(error) {
+            console.log("Error:", error)
+        }
+    }
 </script>
 </html>
