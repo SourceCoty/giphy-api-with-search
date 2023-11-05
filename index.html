@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="content">
+        <div class="search">
+            <input id="search-box" type="text" placeholder="Search..">
+            <button type="submit" id="submit">Submit</button>
+        </div>
+        <div class="image">
+            <img id="giph" src="#" alt="">
+        </div>
+    </div>
+</body>
+<script>
+    const img = document.getElementById('giph');
+    const submitBtn = document.getElementById('submit');
+
+    submitBtn.addEventListener('click', () => {
+        const keyword = document.getElementById('search-box').value;
+        fetch("https://api.giphy.com/v1/gifs/translate?api_key=ZkVCxXdu3oUYR3d46BPvozaFPFRCwvze&s=" + keyword, {mode: 'cors'})
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(response) {
+                img.src = response.data.images.original.url;
+            })
+        });
+</script>
+</html>
